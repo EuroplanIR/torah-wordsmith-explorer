@@ -2,39 +2,44 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* Torah Study Site Design System - Sacred and Academic */
+@import url('https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@300;400;500;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=David+Libre:wght@400;500;700&display=swap');
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Sacred Parchment Theme */
+    --background: 45 15% 97%; /* Warm parchment white */
+    --foreground: 25 25% 15%; /* Deep brown-black for text */
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card: 45 20% 95%; /* Slightly warmer card background */
+    --card-foreground: 25 25% 15%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover: 45 15% 97%;
+    --popover-foreground: 25 25% 15%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 210 85% 25%; /* Deep sacred blue */
+    --primary-foreground: 45 15% 97%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 40 30% 88%; /* Warm beige */
+    --secondary-foreground: 25 25% 15%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 40 25% 90%; /* Soft parchment tone */
+    --muted-foreground: 25 15% 45%; /* Muted brown for secondary text */
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 45 75% 65%; /* Golden accent for highlights */
+    --accent-foreground: 25 25% 15%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --hebrew: 25 25% 12%; /* Darker for Hebrew text */
+    --hebrew-accent: 210 85% 35%; /* Blue accent for Hebrew */
+    --translation: 25 15% 35%; /* Softer for translations */
+    --commentary: 40 25% 25%; /* Warm brown for commentary */
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --destructive: 0 75% 55%;
+    --destructive-foreground: 45 15% 97%;
+
+    --border: 40 20% 85%; /* Subtle warm borders */
+    --input: 40 20% 92%;
+    --ring: 210 85% 25%;
 
     --radius: 0.5rem;
 

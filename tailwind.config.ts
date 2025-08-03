@@ -18,6 +18,11 @@ export default {
 			}
 		},
 		extend: {
+			fontFamily: {
+				'hebrew': ['David Libre', 'Frank Ruhl Libre', 'serif'],
+				'body': ['Crimson Text', 'Georgia', 'serif'],
+				'elegant': ['Frank Ruhl Libre', 'serif'],
+			},
 			colors: {
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
@@ -52,6 +57,10 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
+				hebrew: 'hsl(var(--hebrew))',
+				'hebrew-accent': 'hsl(var(--hebrew-accent))',
+				translation: 'hsl(var(--translation))',
+				commentary: 'hsl(var(--commentary))',
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
 					foreground: 'hsl(var(--sidebar-foreground))',
