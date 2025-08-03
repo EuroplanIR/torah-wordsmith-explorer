@@ -1,10 +1,8 @@
-
 import { useState, useEffect, useRef } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { BookOpen, Type, MessageCircle, Sparkles, X } from "lucide-react";
+import { BookOpen, Type, MessageCircle, Sparkles } from "lucide-react";
 
 interface Translation {
   meaning: string;
@@ -23,40 +21,79 @@ interface TorahWordProps {
 }
 
 export const TorahWord = ({ hebrew, transliteration, translations, verse, position, isActive, onToggle }: TorahWordProps) => {
+  const [popupStyle, setPopupStyle] = useState({});
+  const buttonRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (isActive && buttonRef.current) {
+      const rect = buttonRef.current.getBoundingClientRect();
+      const viewportWidth = window.innerWidth;
+      const popupWidth = 384; // w-96 = 384px
+      const margin = 16; // 1rem margin
+      
+      let newStyle = {};
+      
+      // Mobile: full width with margins
+      if (viewportWidth < 768) {
+        newStyle = { 
+          left: `${margin}px`, 
+          right: `${margin}px`, 
+          width: 'auto',
+          transform: 'none'
+        };
+      }
+      // Check if popup would overflow left edge
+      else if (rect.left < popupWidth/2 + margin) {
+        newStyle = { 
+          left: `${margin}px`,
+          transform: 'none'
+        };
+      }
+      // Check if popup would overflow right edge
+      else if (rect.right > viewportWidth - popupWidth/2 - margin) {
+        newStyle = { 
+          right: `${margin}px`,
+          transform: 'none'
+        };
+      }
+      // Center positioning (default)
+      else {
+        newStyle = {
+          left: '50%',
+          transform: 'translateX(-50%)'
+        };
+      }
+      
+      setPopupStyle(newStyle);
+    }
+  }, [isActive]);
+
   return (
     <div className="relative inline-block mx-1">
-      <TooltipProvider>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <button
-              onClick={() => onToggle(position)}
-              className={`font-hebrew text-hebrew hover:bg-gradient-to-r hover:from-accent/20 hover:to-primary/20 rounded-lg px-2 py-1 mx-0.5 transition-all duration-300 cursor-pointer border-2 relative group transform hover:scale-110 ${
-                isActive 
-                  ? 'border-primary bg-gradient-to-r from-primary/10 to-accent/10 shadow-lg scale-105 active' 
-                  : 'border-transparent hover:border-accent/50'
-              }`}
-            >
-              {hebrew}
-            </button>
-          </TooltipTrigger>
-          <TooltipContent>
-            <p>Нажмите для перевода</p>
-          </TooltipContent>
-        </Tooltip>
-      </TooltipProvider>
+      <button
+        ref={buttonRef}
+        onClick={() => onToggle(position)}
+        className={`font-hebrew text-hebrew hover:bg-gradient-to-r hover:from-accent/20 hover:to-primary/20 rounded-lg px-2 py-1 mx-0.5 transition-all duration-300 cursor-pointer border-2 relative group transform hover:scale-110 ${
+          isActive 
+            ? 'border-primary bg-gradient-to-r from-primary/10 to-accent/10 shadow-lg scale-105' 
+            : 'border-transparent hover:border-accent/50'
+        }`}
+      >
+        {hebrew}
+        {/* Enhanced tooltip */}
+        <span className="absolute -top-10 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-primary to-accent text-white text-xs px-3 py-2 rounded-lg opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none whitespace-nowrap shadow-lg">
+          <Sparkles className="w-3 h-3 inline mr-1" />
+          Нажмите для перевода
+          <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-accent"></div>
+        </span>
+      </button>
       
       {isActive && (
-        <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[9999] w-96 max-w-[95vw] max-h-[80vh] overflow-y-auto">
-          <Card className="shadow-2xl border-0 bg-background animate-scale-in overflow-hidden">
-          {/* Close button */}
-            <Button
-              variant="ghost"
-              size="sm"
-              className="absolute top-2 right-2 z-10 h-8 w-8 p-0 hover:bg-accent/20"
-              onClick={() => onToggle(position)}
-            >
-              <X className="w-4 h-4" />
-            </Button>
+        <div 
+          className="absolute top-full mt-4 z-50 w-96 max-w-[90vw]"
+          style={popupStyle}
+        >
+          <Card className="shadow-2xl border-0 bg-gradient-to-br from-background via-background/95 to-accent/5 backdrop-blur-sm animate-scale-in overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-transparent to-accent/5"></div>
             <CardContent className="relative p-6">
               <div className="space-y-5">
@@ -118,7 +155,7 @@ export const TorahWord = ({ hebrew, transliteration, translations, verse, positi
                 <div className="text-center pt-3 relative">
                   <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-accent/20 to-transparent"></div>
                   <p className="text-xs text-muted-foreground opacity-70 mt-3">
-                    Кликните на X, чтобы закрыть
+                    Нажмите на слово еще раз, чтобы закрыть
                   </p>
                 </div>
               </div>
