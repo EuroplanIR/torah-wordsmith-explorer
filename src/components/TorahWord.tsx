@@ -31,43 +31,21 @@ export const TorahWord = ({ hebrew, transliteration, translations, verse, positi
     if (isActive && buttonRef.current) {
       const rect = buttonRef.current.getBoundingClientRect();
       const viewportWidth = window.innerWidth;
-      const popupWidth = 384; // w-96 = 384px
-      const margin = 16; // 1rem margin
       
-      let newStyle = {};
-      
-      // Mobile: full width with margins
+      // Simple responsive positioning
       if (viewportWidth < 768) {
-        newStyle = { 
-          left: `${margin}px`, 
-          right: `${margin}px`, 
+        setPopupStyle({ 
+          left: '1rem', 
+          right: '1rem', 
           width: 'auto',
           transform: 'none'
-        };
-      }
-      // Check if popup would overflow left edge
-      else if (rect.left < popupWidth/2 + margin) {
-        newStyle = { 
-          left: `${margin}px`,
-          transform: 'none'
-        };
-      }
-      // Check if popup would overflow right edge
-      else if (rect.right > viewportWidth - popupWidth/2 - margin) {
-        newStyle = { 
-          right: `${margin}px`,
-          transform: 'none'
-        };
-      }
-      // Center positioning (default)
-      else {
-        newStyle = {
+        });
+      } else {
+        setPopupStyle({
           left: '50%',
           transform: 'translateX(-50%)'
-        };
+        });
       }
-      
-      setPopupStyle(newStyle);
     }
   }, [isActive]);
 
