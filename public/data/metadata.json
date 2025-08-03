@@ -1,0 +1,11 @@
+{
+  "totalWords": 89,
+  "uniqueWords": 22,
+  "lastUpdated": "2025-08-03T20:23:51.681Z",
+  "sources": [
+    "sefaria",
+    "openBible",
+    "morphhb"
+  ],
+  "version": "1.0.0"
+}
