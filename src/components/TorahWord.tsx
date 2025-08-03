@@ -30,25 +30,20 @@ export const TorahWord = ({ hebrew, transliteration, translations, verse, positi
             ? 'border-primary bg-gradient-to-r from-primary/10 to-accent/10 shadow-lg scale-105 active' 
             : 'border-transparent hover:border-accent/50'
         }`}
+        title="Нажмите для перевода"
       >
         {hebrew}
-        {/* Enhanced tooltip */}
-        <span className="absolute -top-10 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-primary to-accent text-white text-xs px-3 py-2 rounded-lg opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none whitespace-nowrap shadow-lg z-50">
-          <Sparkles className="w-3 h-3 inline mr-1" />
-          Нажмите для перевода
-          <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-accent"></div>
-        </span>
       </button>
       
       {isActive && (
         <>
           {/* Overlay */}
           <div 
-            className="fixed inset-0 bg-black/50 z-40"
+            className="fixed inset-0 bg-black/70 z-[9998]"
             onClick={() => onToggle(position)}
           />
           {/* Modal */}
-          <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 w-96 max-w-[95vw] max-h-[80vh] overflow-y-auto">
+          <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[9999] w-96 max-w-[95vw] max-h-[80vh] overflow-y-auto">
             <Card className="shadow-2xl border-0 bg-gradient-to-br from-background via-background/95 to-accent/5 backdrop-blur-sm animate-scale-in overflow-hidden">
               {/* Close button */}
               <Button
