@@ -23,10 +23,14 @@ export const TorahWord = ({ hebrew, transliteration, translations, verse, positi
     <div className="relative inline-block mx-1">
       <button
         onClick={() => onToggle(position)}
-        className="font-hebrew text-foreground hover:text-accent transition-colors cursor-pointer underline decoration-dotted underline-offset-4"
-      >
-        {hebrew}
-      </button>
+        className="font-hebrew text-hebrew hover:bg-accent/20 rounded px-1 mx-0.5 transition-all duration-200 cursor-pointer border-b-2 border-transparent hover:border-accent hover:shadow-md hover:scale-105 relative group"
+    >
+      {hebrew}
+      {/* Tooltip hint */}
+      <span className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-black text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap">
+        Нажмите для перевода
+      </span>
+    </button>
       
       {isActive && (
         <Card className="absolute z-10 mt-2 w-80 shadow-lg border-2 border-accent/30">

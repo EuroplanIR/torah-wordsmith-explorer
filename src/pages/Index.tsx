@@ -16,7 +16,9 @@ const SAMPLE_VERSE = {
       transliteration: "b'reshit",
       translations: [
         { meaning: "в начале", context: "временной период", grammar: "наречие" },
-        { meaning: "в начале творения", context: "начало всего сущего" }
+        { meaning: "в начале творения", context: "начало всего сущего" },
+        { meaning: "сначала", context: "первым делом" },
+        { meaning: "вначале", context: "в самом начале времени" }
       ]
     },
     {
@@ -24,7 +26,10 @@ const SAMPLE_VERSE = {
       transliteration: "bara",
       translations: [
         { meaning: "создал", context: "творение из ничего", grammar: "глагол прошедшего времени" },
-        { meaning: "сотворил", context: "божественное творение" }
+        { meaning: "сотворил", context: "божественное творение" },
+        { meaning: "произвел", context: "привел в существование" },
+        { meaning: "образовал", context: "придал форму" },
+        { meaning: "устроил", context: "организовал, упорядочил" }
       ]
     },
     {
@@ -32,7 +37,10 @@ const SAMPLE_VERSE = {
       transliteration: "Elohim",
       translations: [
         { meaning: "Бог", context: "множественная форма величия", grammar: "имя существительное" },
-        { meaning: "Всесильный", context: "одно из имен Всевышнего" }
+        { meaning: "Всесильный", context: "одно из имен Всевышнего" },
+        { meaning: "Властелин", context: "владыка всего сущего" },
+        { meaning: "Творец", context: "создатель мира" },
+        { meaning: "Судья", context: "вершащий справедливость" }
       ]
     }
   ]
@@ -138,8 +146,9 @@ const Index = () => {
                   {/* Russian Translation */}
                   <div className="order-1 md:order-2">
                     <div className="bg-gradient-to-bl from-yellow-50 to-amber-100 dark:from-yellow-950 dark:to-amber-900 p-6 rounded-xl border-2 border-yellow-200 dark:border-yellow-800 shadow-lg">
-                      <h3 className="text-sm font-elegant text-amber-600 dark:text-amber-400 mb-3 text-center">
+                      <h3 className="text-sm font-elegant text-amber-600 dark:text-amber-400 mb-3 text-center flex items-center justify-center gap-2">
                         עברית • Иврит
+                        <span className="text-xs bg-amber-200 dark:bg-amber-800 px-2 py-1 rounded-full">Кликните на слова</span>
                       </h3>
                       <div className="text-right leading-loose text-xl min-h-fit" dir="rtl">
                         {SAMPLE_VERSE.words.map((word, index) => (

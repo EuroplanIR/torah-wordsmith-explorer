@@ -35,10 +35,10 @@ export const TorahNavigation = ({ currentBook, currentChapter, currentVerse, onN
             {/* Book Selection */}
             <div className="relative">
               <Select value={currentBook} onValueChange={(value) => onNavigate(value, 1, 1)}>
-                <SelectTrigger className="w-56 bg-gradient-to-r from-white/30 to-white/20 border-2 border-yellow-400/50 text-primary-foreground shadow-lg backdrop-blur-sm hover:from-white/40 hover:to-white/30 transition-all duration-300">
+                <SelectTrigger className="w-56 bg-gradient-to-r from-blue-500/30 to-blue-400/20 border-2 border-blue-300/50 text-primary-foreground shadow-lg backdrop-blur-sm hover:from-blue-500/40 hover:to-blue-400/30 transition-all duration-300">
                   <SelectValue placeholder="Выберите книгу" />
                 </SelectTrigger>
-                <SelectContent className="bg-white border-2 border-yellow-400/30 shadow-xl">
+                <SelectContent className="bg-white border-2 border-blue-300/30 shadow-xl">
                   {TORAH_BOOKS.map((book) => (
                     <SelectItem key={book.english} value={book.english} className="hover:bg-blue-50">
                       <div className="flex items-center gap-2">
@@ -70,13 +70,13 @@ export const TorahNavigation = ({ currentBook, currentChapter, currentVerse, onN
             {/* Verse Selection */}
             <div className="relative">
               <Select value={currentVerse.toString()} onValueChange={(value) => onNavigate(currentBook, currentChapter, parseInt(value))}>
-                <SelectTrigger className="w-32 bg-gradient-to-r from-purple-500/30 to-purple-400/20 border-2 border-purple-300/50 text-primary-foreground shadow-lg backdrop-blur-sm hover:from-purple-500/40 hover:to-purple-400/30 transition-all duration-300">
+                <SelectTrigger className="w-32 bg-gradient-to-r from-blue-500/30 to-blue-400/20 border-2 border-blue-300/50 text-primary-foreground shadow-lg backdrop-blur-sm hover:from-blue-500/40 hover:to-blue-400/30 transition-all duration-300">
                   <SelectValue placeholder="Стих" />
                 </SelectTrigger>
-                <SelectContent className="bg-white border-2 border-purple-300/30 shadow-xl">
+                <SelectContent className="bg-white border-2 border-blue-300/30 shadow-xl">
                   {VERSES.map((verse) => (
-                    <SelectItem key={verse} value={verse.toString()} className="hover:bg-purple-50">
-                      <span className="font-elegant text-purple-800">Стих {verse}</span>
+                    <SelectItem key={verse} value={verse.toString()} className="hover:bg-blue-50">
+                      <span className="font-elegant text-blue-800">Стих {verse}</span>
                     </SelectItem>
                   ))}
                 </SelectContent>
