@@ -46,8 +46,10 @@ export const TorahWord = ({ hebrew, transliteration, translations, verse, positi
       </TooltipProvider>
       
       {isActive && (
-        <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[9999] w-96 max-w-[95vw] max-h-[80vh] overflow-y-auto">
-          <Card className="shadow-2xl border-0 bg-gradient-to-br from-background via-background/95 to-accent/5 backdrop-blur-sm animate-scale-in overflow-hidden">
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-black/50" onClick={() => onToggle(position)}></div>
+          <div className="relative w-96 max-w-[95vw] max-h-[80vh] overflow-y-auto">
+            <Card className="shadow-2xl border-0 bg-background backdrop-blur-sm animate-scale-in overflow-hidden">
             {/* Close button */}
             <Button
               variant="ghost"
@@ -123,7 +125,8 @@ export const TorahWord = ({ hebrew, transliteration, translations, verse, positi
                 </div>
               </div>
             </CardContent>
-          </Card>
+            </Card>
+          </div>
         </div>
       )}
     </div>
