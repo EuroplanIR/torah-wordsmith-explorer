@@ -73,9 +73,9 @@ export const TorahWord = ({ hebrew, transliteration, translations, verse, positi
       <button
         ref={buttonRef}
         onClick={() => onToggle(position)}
-        className={`font-hebrew text-hebrew hover:bg-gradient-to-r hover:from-accent/20 hover:to-primary/20 rounded-lg px-2 py-1 mx-0.5 transition-all duration-300 cursor-pointer border-2 relative group transform hover:scale-110 ${
+        className={`font-hebrew text-hebrew text-yellow-500 dark:text-yellow-400 hover:bg-gradient-to-r hover:from-accent/20 hover:to-primary/20 rounded-lg px-2 py-1 mx-0.5 transition-all duration-300 cursor-pointer border-2 relative group transform hover:scale-110 font-bold drop-shadow-sm ${
           isActive 
-            ? 'border-primary bg-gradient-to-r from-primary/10 to-accent/10 shadow-lg scale-105' 
+            ? 'border-primary bg-gradient-to-r from-primary/10 to-accent/10 shadow-lg scale-105 text-yellow-400 dark:text-yellow-300' 
             : 'border-transparent hover:border-accent/50'
         }`}
       >
