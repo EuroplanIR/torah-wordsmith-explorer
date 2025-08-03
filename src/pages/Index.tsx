@@ -42,12 +42,12 @@ const SAMPLE_COMMENTARIES = [
   {
     author: "Раши",
     text: "В начале творения небес и земли. Если ты пришел объяснить стих в его простом смысле, то следует так: в начале творения небес и земли, когда земля была пуста и необитаема...",
-    category: "Пшат"
+    category: ""
   },
   {
-    author: "Рамбан",
+    author: "Рамбан", 
     text: "Тора начинается с буквы бет, чтобы указать на благословение. Как сказали наши мудрецы: 'Мир был сотворен заслугой Торы'.",
-    category: "Философия"
+    category: ""
   }
 ];
 
@@ -55,11 +55,17 @@ const Index = () => {
   const [currentBook, setCurrentBook] = useState("Genesis");
   const [currentChapter, setCurrentChapter] = useState(1);
   const [currentVerse, setCurrentVerse] = useState(1);
+  const [activeWordPosition, setActiveWordPosition] = useState<number | null>(null);
 
   const handleNavigate = (book: string, chapter: number, verse: number) => {
     setCurrentBook(book);
     setCurrentChapter(chapter);
     setCurrentVerse(verse);
+    setActiveWordPosition(null);
+  };
+
+  const handleWordToggle = (position: number) => {
+    setActiveWordPosition(activeWordPosition === position ? null : position);
   };
 
   return (
@@ -107,17 +113,14 @@ const Index = () => {
               <CardHeader>
                 <CardTitle className="flex items-center justify-between">
                   <span className="font-elegant text-primary">
-                    {currentBook} {currentChapter}:{currentVerse}
+                    בראשית {currentChapter}:{currentVerse} • Берешит {currentChapter}:{currentVerse}
                   </span>
-                  <Badge variant="outline" className="font-hebrew">
-                    בראשית א:א
-                  </Badge>
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-6">
                 {/* Hebrew Text */}
-                <div className="p-6 bg-secondary/30 rounded-lg">
-                  <div className="text-right leading-loose text-xl">
+                <div className="p-6 bg-secondary/30 rounded-lg min-h-fit">
+                  <div className="text-right leading-loose text-xl" style={{ minHeight: 'fit-content' }}>
                     {SAMPLE_VERSE.words.map((word, index) => (
                       <TorahWord
                         key={index}
@@ -126,6 +129,8 @@ const Index = () => {
                         translations={word.translations}
                         verse={`${currentChapter}:${currentVerse}`}
                         position={index + 1}
+                        isActive={activeWordPosition === index + 1}
+                        onToggle={handleWordToggle}
                       />
                     ))}
                   </div>

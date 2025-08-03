@@ -27,9 +27,6 @@ export const Commentary = ({ verse, commentaries }: CommentaryProps) => {
               <Badge variant="secondary" className="font-elegant text-xs">
                 {commentary.author}
               </Badge>
-              <Badge variant="outline" className="font-body text-xs">
-                {commentary.category}
-              </Badge>
             </div>
             <p className="text-commentary font-body leading-relaxed">
               {commentary.text}

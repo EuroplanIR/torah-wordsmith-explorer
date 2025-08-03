@@ -14,22 +14,21 @@ interface TorahWordProps {
   translations: Translation[];
   verse: string;
   position: number;
+  isActive: boolean;
+  onToggle: (position: number) => void;
 }
 
-export const TorahWord = ({ hebrew, transliteration, translations, verse, position }: TorahWordProps) => {
-  const [isOpen, setIsOpen] = useState(false);
-
+export const TorahWord = ({ hebrew, transliteration, translations, verse, position, isActive, onToggle }: TorahWordProps) => {
   return (
-    <div className="relative inline-block">
-      <Button
-        variant="ghost"
-        className="p-1 h-auto hover:bg-accent/20 text-hebrew font-hebrew text-lg leading-relaxed"
-        onClick={() => setIsOpen(!isOpen)}
+    <div className="relative inline-block mx-1">
+      <button
+        onClick={() => onToggle(position)}
+        className="font-hebrew text-foreground hover:text-accent transition-colors cursor-pointer underline decoration-dotted underline-offset-4"
       >
         {hebrew}
-      </Button>
+      </button>
       
-      {isOpen && (
+      {isActive && (
         <Card className="absolute z-10 mt-2 w-80 shadow-lg border-2 border-accent/30">
           <CardContent className="p-4">
             <div className="space-y-3">
