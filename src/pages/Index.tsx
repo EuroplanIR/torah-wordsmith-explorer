@@ -118,32 +118,45 @@ const Index = () => {
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-6">
-                {/* Hebrew Text */}
-                <div className="p-6 bg-secondary/30 rounded-lg min-h-fit">
-                  <div className="text-right leading-loose text-xl" style={{ minHeight: 'fit-content' }}>
-                    {SAMPLE_VERSE.words.map((word, index) => (
-                      <TorahWord
-                        key={index}
-                        hebrew={word.hebrew}
-                        transliteration={word.transliteration}
-                        translations={word.translations}
-                        verse={`${currentChapter}:${currentVerse}`}
-                        position={index + 1}
-                        isActive={activeWordPosition === index + 1}
-                        onToggle={handleWordToggle}
-                      />
-                    ))}
+                {/* Hebrew and Russian Text Side by Side */}
+                <div className="grid md:grid-cols-2 gap-6">
+                  {/* Hebrew Text */}
+                  <div className="order-2 md:order-1">
+                    <div className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-950 dark:to-blue-900 p-6 rounded-xl border-2 border-blue-200 dark:border-blue-800 shadow-lg">
+                      <h3 className="text-sm font-elegant text-blue-600 dark:text-blue-400 mb-3 text-center">
+                        Русский перевод
+                      </h3>
+                      <p className="font-body text-lg leading-relaxed text-center text-blue-900 dark:text-blue-100">
+                        В начале сотворил Бог небо и землю.
+                      </p>
+                      <p className="text-xs text-blue-600 dark:text-blue-400 mt-3 text-center font-body italic">
+                        Дословный перевод
+                      </p>
+                    </div>
                   </div>
-                </div>
-
-                {/* Russian Translation */}
-                <div className="p-4 bg-muted/50 rounded-lg border-l-4 border-accent">
-                  <p className="font-body text-translation leading-relaxed">
-                    В начале сотворил Бог небо и землю.
-                  </p>
-                  <p className="text-sm text-muted-foreground mt-2 font-body italic">
-                    Дословный перевод
-                  </p>
+                  
+                  {/* Russian Translation */}
+                  <div className="order-1 md:order-2">
+                    <div className="bg-gradient-to-bl from-yellow-50 to-amber-100 dark:from-yellow-950 dark:to-amber-900 p-6 rounded-xl border-2 border-yellow-200 dark:border-yellow-800 shadow-lg">
+                      <h3 className="text-sm font-elegant text-amber-600 dark:text-amber-400 mb-3 text-center">
+                        עברית • Иврит
+                      </h3>
+                      <div className="text-right leading-loose text-xl min-h-fit" dir="rtl">
+                        {SAMPLE_VERSE.words.map((word, index) => (
+                          <TorahWord
+                            key={index}
+                            hebrew={word.hebrew}
+                            transliteration={word.transliteration}
+                            translations={word.translations}
+                            verse={`${currentChapter}:${currentVerse}`}
+                            position={index + 1}
+                            isActive={activeWordPosition === index + 1}
+                            onToggle={handleWordToggle}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </CardContent>
             </Card>
@@ -153,6 +166,7 @@ const Index = () => {
           <div className="space-y-4">
             <Commentary
               verse={`${currentChapter}:${currentVerse}`}
+              bookName="Берешит"
               commentaries={SAMPLE_COMMENTARIES}
             />
             

@@ -9,15 +9,16 @@ interface CommentaryItem {
 
 interface CommentaryProps {
   verse: string;
+  bookName: string;
   commentaries: CommentaryItem[];
 }
 
-export const Commentary = ({ verse, commentaries }: CommentaryProps) => {
+export const Commentary = ({ verse, bookName, commentaries }: CommentaryProps) => {
   return (
     <Card className="mt-4">
       <CardHeader className="pb-3">
         <CardTitle className="text-lg font-elegant text-primary">
-          Комментарии к стиху {verse}
+          Комментарии к {bookName} {verse}
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
