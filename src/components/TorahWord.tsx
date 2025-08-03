@@ -29,35 +29,42 @@ export const TorahWord = ({ hebrew, transliteration, translations, verse, positi
       const rect = buttonRef.current.getBoundingClientRect();
       const viewportWidth = window.innerWidth;
       const popupWidth = 384; // w-96 = 384px
+      const margin = 16; // 1rem margin
       
-      let left = '50%';
-      let transform = 'translateX(-50%)';
+      let newStyle = {};
       
-      // Check if popup would overflow right edge
-      if (rect.left + popupWidth/2 > viewportWidth - 20) {
-        left = 'auto';
-        transform = 'none';
-        setPopupStyle({ right: '0' });
-      }
-      // Check if popup would overflow left edge  
-      else if (rect.left - popupWidth/2 < 20) {
-        left = '0';
-        transform = 'none';
-        setPopupStyle({});
-      }
       // Mobile: full width with margins
-      else if (viewportWidth < 768) {
-        left = '0';
-        transform = 'none';
-        setPopupStyle({ 
-          left: '1rem', 
-          right: '1rem', 
-          width: 'auto' 
-        });
+      if (viewportWidth < 768) {
+        newStyle = { 
+          left: `${margin}px`, 
+          right: `${margin}px`, 
+          width: 'auto',
+          transform: 'none'
+        };
       }
+      // Check if popup would overflow left edge
+      else if (rect.left < popupWidth/2 + margin) {
+        newStyle = { 
+          left: `${margin}px`,
+          transform: 'none'
+        };
+      }
+      // Check if popup would overflow right edge
+      else if (rect.right > viewportWidth - popupWidth/2 - margin) {
+        newStyle = { 
+          right: `${margin}px`,
+          transform: 'none'
+        };
+      }
+      // Center positioning (default)
       else {
-        setPopupStyle({});
+        newStyle = {
+          left: '50%',
+          transform: 'translateX(-50%)'
+        };
       }
+      
+      setPopupStyle(newStyle);
     }
   }, [isActive]);
 
@@ -84,11 +91,7 @@ export const TorahWord = ({ hebrew, transliteration, translations, verse, positi
       {isActive && (
         <div 
           className="absolute top-full mt-4 z-50 w-96 max-w-[90vw]"
-          style={{
-            left: '50%',
-            transform: 'translateX(-50%)',
-            ...popupStyle
-          }}
+          style={popupStyle}
         >
           <Card className="shadow-2xl border-0 bg-gradient-to-br from-background via-background/95 to-accent/5 backdrop-blur-sm animate-scale-in overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-transparent to-accent/5"></div>
