@@ -25,7 +25,7 @@ export const TorahNavigation = ({ currentBook, currentChapter, currentVerse, onN
   const currentBookData = TORAH_BOOKS.find(book => book.english === currentBook);
 
   return (
-    <Card className="mb-6 bg-secondary/30">
+    <Card className="mb-6 israeli-gradient tehelet-shadow">
       <CardContent className="p-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
@@ -33,17 +33,17 @@ export const TorahNavigation = ({ currentBook, currentChapter, currentVerse, onN
               variant="outline"
               size="sm"
               onClick={() => setShowBooks(!showBooks)}
-              className="font-elegant"
+              className="font-elegant bg-white/20 border-white/30 text-primary-foreground hover:bg-white/30"
             >
               <BookOpen className="w-4 h-4 mr-2" />
               {currentBookData?.russian}
             </Button>
             
             <div className="flex items-center gap-2">
-              <Badge variant="secondary" className="font-elegant">
+              <Badge variant="secondary" className="font-elegant bg-accent text-accent-foreground">
                 Глава {currentChapter}
               </Badge>
-              <Badge variant="outline" className="font-body">
+              <Badge variant="outline" className="font-body border-accent text-primary-foreground bg-white/10">
                 Стих {currentVerse}
               </Badge>
             </div>
@@ -54,6 +54,7 @@ export const TorahNavigation = ({ currentBook, currentChapter, currentVerse, onN
               variant="ghost"
               size="sm"
               onClick={() => onNavigate(currentBook, currentChapter, Math.max(1, currentVerse - 1))}
+              className="text-primary-foreground hover:bg-white/20"
             >
               <ChevronLeft className="w-4 h-4" />
             </Button>
@@ -61,6 +62,7 @@ export const TorahNavigation = ({ currentBook, currentChapter, currentVerse, onN
               variant="ghost"
               size="sm"
               onClick={() => onNavigate(currentBook, currentChapter, currentVerse + 1)}
+              className="text-primary-foreground hover:bg-white/20"
             >
               <ChevronRight className="w-4 h-4" />
             </Button>

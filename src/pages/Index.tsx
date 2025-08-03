@@ -64,25 +64,27 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background font-body">
-      {/* Header */}
-      <header className="bg-card border-b border-border shadow-sm">
-        <div className="max-w-6xl mx-auto px-4 py-4">
+      {/* Header - в стиле флага Израиля */}
+      <header className="israeli-gradient border-b-2 border-accent tehelet-shadow">
+        <div className="max-w-6xl mx-auto px-4 py-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
-              <h1 className="text-2xl font-elegant font-bold text-primary">תורה Torah</h1>
-              <Badge variant="secondary" className="font-body">
-                Подстрочный перевод
+              <h1 className="text-3xl font-elegant font-bold text-primary-foreground drop-shadow-sm">
+                תורה Torah
+              </h1>
+              <Badge variant="secondary" className="font-body star-david-accent">
+                Подстрочный перевод • תרגום מילה במילה
               </Badge>
             </div>
             
             <div className="flex items-center gap-2">
-              <Button variant="ghost" size="sm">
+              <Button variant="ghost" size="sm" className="text-primary-foreground hover:bg-white/20">
                 <Search className="w-4 h-4" />
               </Button>
-              <Button variant="ghost" size="sm">
+              <Button variant="ghost" size="sm" className="text-primary-foreground hover:bg-white/20">
                 <Bookmark className="w-4 h-4" />
               </Button>
-              <Button variant="ghost" size="sm">
+              <Button variant="ghost" size="sm" className="text-primary-foreground hover:bg-white/20">
                 <Settings className="w-4 h-4" />
               </Button>
             </div>
