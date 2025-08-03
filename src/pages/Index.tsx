@@ -128,22 +128,8 @@ const Index = () => {
               <CardContent className="space-y-6">
                 {/* Hebrew and Russian Text Side by Side */}
                 <div className="grid md:grid-cols-2 gap-6">
-                  {/* Russian Translation */}
-                  <div className="order-1">
-                    <div className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-950 dark:to-blue-900 p-6 rounded-xl border-2 border-blue-200 dark:border-blue-800 shadow-lg h-full flex flex-col">
-                      <h3 className="text-sm font-elegant text-blue-600 dark:text-blue-400 mb-3 text-center">
-                        Русский перевод
-                      </h3>
-                      <div className="flex-1 flex items-center justify-center">
-                        <p className="font-body text-lg leading-relaxed text-center text-blue-900 dark:text-blue-100">
-                          В начале сотворил Бог небо и землю.
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                  
                   {/* Hebrew Text */}
-                  <div className="order-2">
+                  <div className="order-1">
                     <div className="bg-gradient-to-bl from-yellow-50 to-amber-100 dark:from-yellow-950 dark:to-amber-900 p-6 rounded-xl border-2 border-yellow-200 dark:border-yellow-800 shadow-lg h-full flex flex-col">
                       <h3 className="text-sm font-elegant text-amber-600 dark:text-amber-400 mb-3 text-center flex items-center justify-center gap-2">
                         עברית • Иврит
@@ -164,6 +150,20 @@ const Index = () => {
                             />
                           ))}
                         </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {/* Russian Translation */}
+                  <div className="order-2">
+                    <div className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-950 dark:to-blue-900 p-6 rounded-xl border-2 border-blue-200 dark:border-blue-800 shadow-lg h-full flex flex-col">
+                      <h3 className="text-sm font-elegant text-blue-600 dark:text-blue-400 mb-3 text-center">
+                        Русский перевод
+                      </h3>
+                      <div className="flex-1 flex items-center justify-center">
+                        <p className="font-body text-lg leading-relaxed text-center text-blue-900 dark:text-blue-100">
+                          В начале сотворил Бог небо и землю.
+                        </p>
                       </div>
                     </div>
                   </div>
