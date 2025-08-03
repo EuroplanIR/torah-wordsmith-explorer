@@ -109,6 +109,22 @@
     border: 2px solid hsl(var(--accent));
     background: linear-gradient(45deg, hsl(var(--primary) / 0.1), hsl(var(--accent) / 0.1));
   }
+  
+  /* Golden Hebrew Text */
+  .golden-hebrew-text button {
+    background: linear-gradient(135deg, #ffd700, #ffed4a, #f59e0b, #d97706);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+    transition: all 0.3s ease;
+  }
+  
+  .golden-hebrew-text button:hover {
+    filter: brightness(1.2);
+    text-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+  }
+}
 }
 
 @layer base {
