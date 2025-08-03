@@ -23,6 +23,9 @@ interface TorahWordProps {
 export const TorahWord = ({ hebrew, transliteration, translations, verse, position, isActive, onToggle }: TorahWordProps) => {
   const [popupStyle, setPopupStyle] = useState({});
   const buttonRef = useRef<HTMLButtonElement>(null);
+  
+  // Debug log
+  console.log(`TorahWord ${position}: isActive=${isActive}`);
 
   useEffect(() => {
     if (isActive && buttonRef.current) {
@@ -72,7 +75,10 @@ export const TorahWord = ({ hebrew, transliteration, translations, verse, positi
     <div className="relative inline-block mx-1">
       <button
         ref={buttonRef}
-        onClick={() => onToggle(position)}
+        onClick={() => {
+          console.log('TorahWord clicked, position:', position, 'isActive:', isActive);
+          onToggle(position);
+        }}
         className={`font-hebrew text-hebrew hover:bg-gradient-to-r hover:from-accent/20 hover:to-primary/20 rounded-lg px-2 py-1 mx-0.5 transition-all duration-300 cursor-pointer border-2 relative group transform hover:scale-110 ${
           isActive 
             ? 'border-primary bg-gradient-to-r from-primary/10 to-accent/10 shadow-lg scale-105 active' 

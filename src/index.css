@@ -112,22 +112,34 @@
   
   /* Golden Hebrew Text */
   .golden-hebrew-text button {
-    background: linear-gradient(135deg, #ffd700, #ffed4a, #f59e0b, #d97706) !important;
+    color: #d97706 !important;
+    background: linear-gradient(135deg, #ffd700, #f59e0b, #d97706) !important;
     background-clip: text !important;
     -webkit-background-clip: text !important;
     -webkit-text-fill-color: transparent !important;
-    text-shadow: 0 2px 4px rgba(255, 215, 0, 0.3) !important;
+    font-weight: 600 !important;
+    text-shadow: none !important;
+    filter: drop-shadow(0 1px 2px rgba(217, 119, 6, 0.3));
     transition: all 0.3s ease;
-    filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.3));
   }
   
   .golden-hebrew-text button:hover {
-    filter: brightness(1.2) drop-shadow(0 0 12px rgba(255, 215, 0, 0.5)) !important;
-    transform: scale(1.1) !important;
+    filter: drop-shadow(0 2px 4px rgba(217, 119, 6, 0.5)) !important;
+    transform: scale(1.05) !important;
   }
   
   .golden-hebrew-text button.active {
-    filter: brightness(1.3) drop-shadow(0 0 15px rgba(255, 215, 0, 0.7)) !important;
+    filter: drop-shadow(0 2px 6px rgba(217, 119, 6, 0.7)) !important;
+    transform: scale(1.08) !important;
+  }
+  
+  /* Fallback for browsers that don't support background-clip: text */
+  @supports not (background-clip: text) or not (-webkit-background-clip: text) {
+    .golden-hebrew-text button {
+      color: #d97706 !important;
+      background: none !important;
+      -webkit-text-fill-color: #d97706 !important;
+    }
   }
 }
 

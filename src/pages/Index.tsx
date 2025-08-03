@@ -333,6 +333,7 @@ const Index = () => {
   };
 
   const handleWordToggle = (position: number) => {
+    console.log('handleWordToggle called, position:', position, 'current activeWordPosition:', activeWordPosition);
     setActiveWordPosition(activeWordPosition === position ? null : position);
   };
 
