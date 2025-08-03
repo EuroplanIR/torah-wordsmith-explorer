@@ -47,7 +47,7 @@ export const TorahWord = ({ hebrew, transliteration, translations, verse, positi
       
       {isActive && (
         <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
-          <div className="absolute inset-0 bg-black/50" onClick={() => onToggle(position)}></div>
+          <div className="absolute inset-0 bg-background/95 backdrop-blur-md" onClick={() => onToggle(position)}></div>
           <div className="relative w-96 max-w-[95vw] max-h-[80vh] overflow-y-auto">
             <Card className="shadow-2xl border-0 bg-background backdrop-blur-sm animate-scale-in overflow-hidden">
             {/* Close button */}
