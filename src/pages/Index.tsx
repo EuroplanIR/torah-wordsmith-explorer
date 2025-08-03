@@ -130,10 +130,10 @@ const Index = () => {
                 <div className="grid md:grid-cols-2 gap-6">
                   {/* Hebrew Text */}
                   <div className="order-1">
-                    <div className="bg-gradient-to-bl from-yellow-50 to-amber-100 dark:from-yellow-950 dark:to-amber-900 p-6 rounded-xl border-2 border-yellow-200 dark:border-yellow-800 shadow-lg h-full flex flex-col">
-                      <h3 className="text-sm font-elegant text-amber-600 dark:text-amber-400 mb-3 text-center flex items-center justify-center gap-2">
+                    <div className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-950 dark:to-blue-900 p-6 rounded-xl border-2 border-blue-200 dark:border-blue-800 shadow-lg h-full flex flex-col">
+                      <h3 className="text-sm font-elegant text-blue-600 dark:text-blue-400 mb-3 text-center flex items-center justify-center gap-2">
                         עברית • Иврит
-                        <span className="text-xs bg-amber-200 dark:bg-amber-800 px-2 py-1 rounded-full">Кликните на слова</span>
+                        <span className="text-xs bg-blue-200 dark:bg-blue-800 px-2 py-1 rounded-full">Кликните на слова</span>
                       </h3>
                       <div className="flex-1 flex items-center justify-center">
                         <div className="text-right leading-loose text-xl" dir="rtl">
@@ -156,12 +156,12 @@ const Index = () => {
                   
                   {/* Russian Translation */}
                   <div className="order-2">
-                    <div className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-950 dark:to-blue-900 p-6 rounded-xl border-2 border-blue-200 dark:border-blue-800 shadow-lg h-full flex flex-col">
-                      <h3 className="text-sm font-elegant text-blue-600 dark:text-blue-400 mb-3 text-center">
+                    <div className="bg-gradient-to-bl from-yellow-50 to-amber-100 dark:from-yellow-950 dark:to-amber-900 p-6 rounded-xl border-2 border-yellow-200 dark:border-yellow-800 shadow-lg h-full flex flex-col">
+                      <h3 className="text-sm font-elegant text-amber-600 dark:text-amber-400 mb-3 text-center">
                         Русский перевод
                       </h3>
                       <div className="flex-1 flex items-center justify-center">
-                        <p className="font-body text-lg leading-relaxed text-center text-blue-900 dark:text-blue-100">
+                        <p className="font-body text-lg leading-relaxed text-center text-amber-900 dark:text-amber-100">
                           В начале сотворил Бог небо и землю.
                         </p>
                       </div>

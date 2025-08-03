@@ -33,35 +33,32 @@ export const TorahWord = ({ hebrew, transliteration, translations, verse, positi
     </button>
       
       {isActive && (
-        <Card className="absolute z-10 mt-2 w-80 shadow-lg border-2 border-accent/30">
+        <Card className="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 w-80 max-w-[90vw] z-50 shadow-xl border-2 border-accent bg-background">
           <CardContent className="p-4">
             <div className="space-y-3">
-              <div className="text-center border-b border-border pb-2">
-                <div className="text-xl font-hebrew text-hebrew-accent mb-1">{hebrew}</div>
-                <div className="text-sm text-muted-foreground font-body italic">{transliteration}</div>
+              <div className="text-center border-b pb-2">
+                <div className="font-hebrew text-2xl text-foreground mb-1">{hebrew}</div>
+                <div className="text-sm text-muted-foreground italic">{transliteration}</div>
+                <div className="text-xs text-muted-foreground">Стих {verse}, слово {position}</div>
               </div>
               
               <div className="space-y-2">
-                <h4 className="font-semibold text-sm text-primary font-elegant">Переводы:</h4>
+                <h4 className="font-semibold text-sm text-primary">Переводы:</h4>
                 {translations.map((translation, index) => (
-                  <div key={index} className="p-2 bg-secondary/50 rounded-md">
-                    <div className="text-translation font-body">{translation.meaning}</div>
+                  <div key={index} className="border-l-2 border-accent pl-3 py-1">
+                    <div className="font-medium text-foreground">{translation.meaning}</div>
                     {translation.context && (
-                      <div className="text-xs text-muted-foreground mt-1 font-body italic">
+                      <div className="text-xs text-muted-foreground mt-1">
                         Контекст: {translation.context}
                       </div>
                     )}
                     {translation.grammar && (
-                      <div className="text-xs text-commentary mt-1 font-body">
+                      <div className="text-xs text-accent mt-1">
                         Грамматика: {translation.grammar}
                       </div>
                     )}
                   </div>
                 ))}
-              </div>
-              
-              <div className="text-xs text-muted-foreground pt-2 border-t border-border font-body">
-                Стих {verse}, слово {position}
               </div>
             </div>
           </CardContent>
