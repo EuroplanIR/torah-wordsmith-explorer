@@ -333,7 +333,6 @@ const Index = () => {
   };
 
   const handleWordToggle = (position: number) => {
-    console.log('handleWordToggle called, position:', position, 'current activeWordPosition:', activeWordPosition);
     setActiveWordPosition(activeWordPosition === position ? null : position);
   };
 
@@ -391,19 +390,13 @@ const Index = () => {
                 <div className="grid md:grid-cols-2 gap-6">
                   {/* Hebrew Text */}
                   <div className="order-1">
-                    <div className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-950 dark:to-blue-900 p-6 rounded-xl border-2 border-blue-200 dark:border-blue-800 shadow-lg h-full flex flex-col relative overflow-hidden">
-                      {/* Decorative background pattern */}
-                      <div className="absolute inset-0 opacity-10">
-                        <div className="absolute top-4 right-4 text-6xl text-amber-400">✡</div>
-                        <div className="absolute bottom-4 left-4 text-4xl text-amber-300">✡</div>
-                      </div>
-                      
-                      <h3 className="text-sm font-elegant text-blue-600 dark:text-blue-400 mb-3 text-center flex items-center justify-center gap-2 relative z-10">
+                    <div className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-950 dark:to-blue-900 p-6 rounded-xl border-2 border-blue-200 dark:border-blue-800 shadow-lg h-full flex flex-col">
+                      <h3 className="text-sm font-elegant text-blue-600 dark:text-blue-400 mb-3 text-center flex items-center justify-center gap-2">
                         עברית • Иврит
                         <span className="text-xs bg-blue-200 dark:bg-blue-800 px-2 py-1 rounded-full">Кликните на слова</span>
                       </h3>
-                      <div className="flex-1 flex items-center justify-center relative z-10">
-                        <div className="text-right leading-loose text-xl golden-hebrew-text" dir="rtl">
+                      <div className="flex-1 flex items-center justify-center">
+                        <div className="text-right leading-loose text-xl" dir="rtl">
                           {currentBookData.verse.words.map((word, index) => (
                             <TorahWord
                               key={index}
@@ -423,26 +416,14 @@ const Index = () => {
                   
                   {/* Russian Translation */}
                   <div className="order-2">
-                    <div className="bg-gradient-to-tl from-amber-50 via-yellow-50 to-orange-50 dark:from-amber-950 dark:via-yellow-950 dark:to-orange-950 p-8 rounded-xl border-2 border-amber-200 dark:border-amber-800 shadow-lg h-full flex flex-col relative overflow-hidden">
-                      {/* Decorative elements */}
-                      <div className="absolute inset-0 opacity-5">
-                        <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-amber-300 rounded-full"></div>
-                        <div className="absolute bottom-0 left-0 w-20 h-20 bg-gradient-to-tr from-yellow-300 rounded-full"></div>
-                      </div>
-                      
-                      <h3 className="text-sm font-elegant text-amber-700 dark:text-amber-300 mb-4 text-center relative z-10 flex items-center justify-center gap-2">
-                        <span className="bg-amber-100 dark:bg-amber-900 px-3 py-1 rounded-full border border-amber-300 dark:border-amber-700">
-                          Русский перевод
-                        </span>
+                    <div className="bg-gradient-to-bl from-yellow-50 to-amber-100 dark:from-yellow-950 dark:to-amber-900 p-6 rounded-xl border-2 border-yellow-200 dark:border-yellow-800 shadow-lg h-full flex flex-col">
+                      <h3 className="text-sm font-elegant text-amber-600 dark:text-amber-400 mb-3 text-center">
+                        Русский перевод
                       </h3>
-                      <div className="flex-1 flex items-center justify-center relative z-10">
-                        <div className="text-center space-y-4">
-                          <div className="w-12 h-px bg-gradient-to-r from-transparent via-amber-400 to-transparent mx-auto"></div>
-                          <p className="font-body text-xl leading-relaxed text-amber-900 dark:text-amber-100 font-medium tracking-wide">
-                            {currentBookData.verse.russian}
-                          </p>
-                          <div className="w-12 h-px bg-gradient-to-r from-transparent via-amber-400 to-transparent mx-auto"></div>
-                        </div>
+                      <div className="flex-1 flex items-center justify-center">
+                        <p className="font-body text-lg leading-relaxed text-center text-amber-900 dark:text-amber-100">
+                          {currentBookData.verse.russian}
+                        </p>
                       </div>
                     </div>
                   </div>
