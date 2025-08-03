@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -21,9 +21,50 @@ interface TorahWordProps {
 }
 
 export const TorahWord = ({ hebrew, transliteration, translations, verse, position, isActive, onToggle }: TorahWordProps) => {
+  const [popupStyle, setPopupStyle] = useState({});
+  const buttonRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (isActive && buttonRef.current) {
+      const rect = buttonRef.current.getBoundingClientRect();
+      const viewportWidth = window.innerWidth;
+      const popupWidth = 384; // w-96 = 384px
+      
+      let left = '50%';
+      let transform = 'translateX(-50%)';
+      
+      // Check if popup would overflow right edge
+      if (rect.left + popupWidth/2 > viewportWidth - 20) {
+        left = 'auto';
+        transform = 'none';
+        setPopupStyle({ right: '0' });
+      }
+      // Check if popup would overflow left edge  
+      else if (rect.left - popupWidth/2 < 20) {
+        left = '0';
+        transform = 'none';
+        setPopupStyle({});
+      }
+      // Mobile: full width with margins
+      else if (viewportWidth < 768) {
+        left = '0';
+        transform = 'none';
+        setPopupStyle({ 
+          left: '1rem', 
+          right: '1rem', 
+          width: 'auto' 
+        });
+      }
+      else {
+        setPopupStyle({});
+      }
+    }
+  }, [isActive]);
+
   return (
     <div className="relative inline-block mx-1">
       <button
+        ref={buttonRef}
         onClick={() => onToggle(position)}
         className={`font-hebrew text-hebrew hover:bg-gradient-to-r hover:from-accent/20 hover:to-primary/20 rounded-lg px-2 py-1 mx-0.5 transition-all duration-300 cursor-pointer border-2 relative group transform hover:scale-110 ${
           isActive 
@@ -41,59 +82,62 @@ export const TorahWord = ({ hebrew, transliteration, translations, verse, positi
       </button>
       
       {isActive && (
-        <Card className="absolute top-full left-1/2 transform -translate-x-1/2 mt-4 w-96 max-w-[95vw] z-50 shadow-2xl border-0 bg-gradient-to-br from-background via-background/95 to-accent/5 backdrop-blur-sm animate-scale-in">
-          <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-primary/10 via-transparent to-accent/10 opacity-50"></div>
-          <CardContent className="relative p-6">
-            <div className="space-y-4">
-              {/* Header Section */}
-              <div className="text-center pb-4 border-b border-gradient-to-r from-transparent via-accent/30 to-transparent">
-                <div className="relative">
-                  <div className="font-hebrew text-3xl text-primary mb-2 drop-shadow-sm">{hebrew}</div>
-                  <div className="absolute -top-1 -right-1">
-                    <Badge variant="outline" className="text-xs bg-primary/10 border-primary/30">
-                      <BookOpen className="w-3 h-3 mr-1" />
-                      {position}
-                    </Badge>
+        <div 
+          className="absolute top-full mt-4 z-50 w-96 max-w-[90vw]"
+          style={{
+            left: '50%',
+            transform: 'translateX(-50%)',
+            ...popupStyle
+          }}
+        >
+          <Card className="shadow-2xl border-0 bg-gradient-to-br from-background via-background/95 to-accent/5 backdrop-blur-sm animate-scale-in overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-transparent to-accent/5"></div>
+            <CardContent className="relative p-6">
+              <div className="space-y-5">
+                {/* Header Section */}
+                <div className="text-center pb-4 relative">
+                  <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-accent/30 to-transparent"></div>
+                  <div className="relative">
+                    <div className="font-hebrew text-4xl text-primary mb-3 drop-shadow-sm">{hebrew}</div>
+                    <div className="absolute -top-1 -right-1">
+                      <Badge variant="outline" className="text-xs bg-primary/10 border-primary/30 shadow-sm">
+                        <BookOpen className="w-3 h-3 mr-1" />
+                        {position}
+                      </Badge>
+                    </div>
                   </div>
-                </div>
-                <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground italic mb-2">
-                  <Type className="w-4 h-4" />
-                  {transliteration}
-                </div>
-                <Badge variant="secondary" className="text-xs bg-accent/20 text-accent-foreground">
-                  Стих {verse}
-                </Badge>
-              </div>
-              
-              {/* Translations Section */}
-              <div className="space-y-3">
-                <div className="flex items-center gap-2 mb-3">
-                  <MessageCircle className="w-4 h-4 text-primary" />
-                  <h4 className="font-semibold text-primary">Переводы и значения</h4>
+                  <div className="flex items-center justify-center gap-2 text-base text-muted-foreground italic mb-3">
+                    <Type className="w-4 h-4" />
+                    {transliteration}
+                  </div>
+                  <Badge variant="secondary" className="text-xs bg-accent/20 text-accent-foreground shadow-sm">
+                    Стих {verse}
+                  </Badge>
                 </div>
                 
-                <div className="space-y-3">
+                {/* Translations Section */}
+                <div className="space-y-4">
                   {translations.map((translation, index) => (
                     <div 
                       key={index} 
-                      className="group relative rounded-lg bg-gradient-to-r from-card/50 to-accent/5 border border-accent/20 p-4 hover:from-accent/10 hover:to-primary/5 hover:border-accent/40 transition-all duration-300 hover:shadow-md"
+                      className="group relative rounded-xl bg-gradient-to-r from-card/60 to-accent/10 border border-accent/20 p-5 hover:from-accent/15 hover:to-primary/10 hover:border-accent/40 transition-all duration-300 hover:shadow-lg hover:scale-[1.02]"
                     >
-                      <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-primary to-accent rounded-l-lg opacity-60 group-hover:opacity-100 transition-opacity"></div>
+                      <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-gradient-to-b from-primary to-accent rounded-l-xl opacity-60 group-hover:opacity-100 transition-opacity"></div>
                       
-                      <div className="pl-3">
-                        <div className="font-semibold text-foreground text-base mb-2 group-hover:text-primary transition-colors">
+                      <div className="pl-4">
+                        <div className="font-semibold text-foreground text-lg mb-3 group-hover:text-primary transition-colors leading-relaxed">
                           {translation.meaning}
                         </div>
                         
                         <div className="flex flex-wrap gap-2">
                           {translation.context && (
-                            <Badge variant="outline" className="text-xs bg-muted/50 text-muted-foreground border-muted-foreground/30">
+                            <Badge variant="outline" className="text-xs bg-muted/60 text-muted-foreground border-muted-foreground/30 hover:bg-muted/80 transition-colors">
                               <MessageCircle className="w-3 h-3 mr-1" />
                               {translation.context}
                             </Badge>
                           )}
                           {translation.grammar && (
-                            <Badge variant="outline" className="text-xs bg-accent/10 text-accent border-accent/30">
+                            <Badge variant="outline" className="text-xs bg-accent/15 text-accent-foreground border-accent/40 hover:bg-accent/25 transition-colors">
                               <Type className="w-3 h-3 mr-1" />
                               {translation.grammar}
                             </Badge>
@@ -103,17 +147,18 @@ export const TorahWord = ({ hebrew, transliteration, translations, verse, positi
                     </div>
                   ))}
                 </div>
+                
+                {/* Close hint */}
+                <div className="text-center pt-3 relative">
+                  <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-accent/20 to-transparent"></div>
+                  <p className="text-xs text-muted-foreground opacity-70 mt-3">
+                    Нажмите на слово еще раз, чтобы закрыть
+                  </p>
+                </div>
               </div>
-              
-              {/* Close hint */}
-              <div className="text-center pt-2 border-t border-accent/20">
-                <p className="text-xs text-muted-foreground opacity-70">
-                  Нажмите на слово еще раз, чтобы закрыть
-                </p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
+        </div>
       )}
     </div>
   );
