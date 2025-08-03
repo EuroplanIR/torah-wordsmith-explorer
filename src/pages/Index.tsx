@@ -156,22 +156,6 @@ const Index = () => {
               commentaries={SAMPLE_COMMENTARIES}
             />
             
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-sm font-elegant text-primary">Быстрые ссылки</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-2">
-                <Button variant="ghost" className="w-full justify-start text-sm font-body">
-                  Недельная глава
-                </Button>
-                <Button variant="ghost" className="w-full justify-start text-sm font-body">
-                  Календарь чтения
-                </Button>
-                <Button variant="ghost" className="w-full justify-start text-sm font-body">
-                  Закладки
-                </Button>
-              </CardContent>
-            </Card>
           </div>
         </div>
       </div>

@@ -29,23 +29,23 @@ export const TorahNavigation = ({ currentBook, currentChapter, currentVerse, onN
   return (
     <Card className="mb-6 israeli-gradient tehelet-shadow">
       <CardContent className="p-4">
-        {/* Books Selection - Always Visible */}
-        <div className="grid grid-cols-5 gap-2 mb-4">
-          {TORAH_BOOKS.map((book) => (
-            <Button
-              key={book.english}
-              variant={book.english === currentBook ? "default" : "ghost"}
-              className={`h-auto p-3 flex flex-col items-center gap-1 transition-all ${
-                book.english === currentBook 
-                  ? "bg-yellow-400 text-black hover:bg-yellow-500" 
-                  : "text-primary-foreground hover:bg-white/20"
-              }`}
-              onClick={() => onNavigate(book.english, 1, 1)}
-            >
-              <div className="font-hebrew text-sm">{book.hebrew}</div>
-              <div className="font-elegant text-xs">{book.russian}</div>
-            </Button>
-          ))}
+        {/* Book Selection */}
+        <div className="mb-4">
+          <Select value={currentBook} onValueChange={(value) => onNavigate(value, 1, 1)}>
+            <SelectTrigger className="w-64 bg-white/20 border-white/30 text-primary-foreground">
+              <SelectValue placeholder="Выберите книгу" />
+            </SelectTrigger>
+            <SelectContent>
+              {TORAH_BOOKS.map((book) => (
+                <SelectItem key={book.english} value={book.english}>
+                  <div className="flex items-center gap-2">
+                    <span className="font-hebrew">{book.hebrew}</span>
+                    <span className="font-elegant">• {book.russian}</span>
+                  </div>
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
 
         <div className="flex items-center justify-between">
