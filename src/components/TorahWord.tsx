@@ -93,7 +93,7 @@ export const TorahWord = ({ hebrew, transliteration, translations, verse, positi
           className="absolute top-full mt-4 z-50 w-96 max-w-[90vw]"
           style={popupStyle}
         >
-          <Card className="shadow-2xl border-0 bg-gradient-to-br from-background via-background/95 to-accent/5 backdrop-blur-sm animate-scale-in overflow-hidden">
+          <Card className="shadow-2xl border-0 bg-background backdrop-blur-sm animate-scale-in overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-transparent to-accent/5"></div>
             <CardContent className="relative p-6">
               <div className="space-y-5">
