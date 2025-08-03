@@ -7,63 +7,323 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Search, Bookmark, Settings } from "lucide-react";
 
-// Пример данных для демонстрации
-const SAMPLE_VERSE = {
-  hebrew: ["בְּרֵאשִׁית", "בָּרָא", "אֱלֹהִים", "אֵת", "הַשָּׁמַיִם", "וְאֵת", "הָאָרֶץ"],
-  words: [
-    {
-      hebrew: "בְּרֵאשִׁית",
-      transliteration: "b'reshit",
-      translations: [
-        { meaning: "в начале", context: "временной период", grammar: "наречие" },
-        { meaning: "в начале творения", context: "начало всего сущего" },
-        { meaning: "сначала", context: "первым делом" },
-        { meaning: "вначале", context: "в самом начале времени" }
+// Данные для демонстрации разных книг
+const TORAH_DATA = {
+  Genesis: {
+    hebrew: "בראשית",
+    russian: "Берешит",
+    verse: {
+      hebrew: ["בְּרֵאשִׁית", "בָּרָא", "אֱלֹהִים", "אֵת", "הַשָּׁמַיִם", "וְאֵת", "הָאָרֶץ"],
+      russian: "В начале сотворил Бог небо и землю.",
+      words: [
+        {
+          hebrew: "בְּרֵאשִׁית",
+          transliteration: "b'reshit",
+          translations: [
+            { meaning: "в начале", context: "временной период", grammar: "наречие" },
+            { meaning: "в начале творения", context: "начало всего сущего" },
+            { meaning: "сначала", context: "первым делом" }
+          ]
+        },
+        {
+          hebrew: "בָּרָא",
+          transliteration: "bara",
+          translations: [
+            { meaning: "создал", context: "творение из ничего", grammar: "глагол прошедшего времени" },
+            { meaning: "сотворил", context: "божественное творение" },
+            { meaning: "произвел", context: "привел в существование" }
+          ]
+        },
+        {
+          hebrew: "אֱלֹהִים",
+          transliteration: "Elohim",
+          translations: [
+            { meaning: "Бог", context: "множественная форма величия", grammar: "имя существительное" },
+            { meaning: "Всесильный", context: "одно из имен Всевышнего" },
+            { meaning: "Творец", context: "создатель мира" }
+          ]
+        },
+        {
+          hebrew: "אֵת",
+          transliteration: "et",
+          translations: [
+            { meaning: "— ", context: "указательная частица", grammar: "частица" },
+            { meaning: "[знак прямого дополнения]", context: "грамматическая функция" }
+          ]
+        },
+        {
+          hebrew: "הַשָּׁמַיִם",
+          transliteration: "ha-shamayim",
+          translations: [
+            { meaning: "небо", context: "небосвод", grammar: "имя существительное с артиклем" },
+            { meaning: "небеса", context: "духовные миры" },
+            { meaning: "высь", context: "верхние пределы" }
+          ]
+        },
+        {
+          hebrew: "וְאֵת",
+          transliteration: "v'et",
+          translations: [
+            { meaning: "и —", context: "союз + указательная частица", grammar: "союз + частица" },
+            { meaning: "и [знак дополнения]", context: "грамматическая функция" }
+          ]
+        },
+        {
+          hebrew: "הָאָרֶץ",
+          transliteration: "ha-aretz",
+          translations: [
+            { meaning: "землю", context: "планета Земля", grammar: "имя существительное с артиклем" },
+            { meaning: "сушу", context: "твердая поверхность" },
+            { meaning: "страну", context: "территория" }
+          ]
+        }
       ]
     },
-    {
-      hebrew: "בָּרָא",
-      transliteration: "bara",
-      translations: [
-        { meaning: "создал", context: "творение из ничего", grammar: "глагол прошедшего времени" },
-        { meaning: "сотворил", context: "божественное творение" },
-        { meaning: "произвел", context: "привел в существование" },
-        { meaning: "образовал", context: "придал форму" },
-        { meaning: "устроил", context: "организовал, упорядочил" }
-      ]
-    },
-    {
-      hebrew: "אֱלֹהִים",
-      transliteration: "Elohim",
-      translations: [
-        { meaning: "Бог", context: "множественная форма величия", grammar: "имя существительное" },
-        { meaning: "Всесильный", context: "одно из имен Всевышнего" },
-        { meaning: "Властелин", context: "владыка всего сущего" },
-        { meaning: "Творец", context: "создатель мира" },
-        { meaning: "Судья", context: "вершащий справедливость" }
-      ]
-    }
-  ]
-};
-
-const SAMPLE_COMMENTARIES = [
-  {
-    author: "Раши",
-    text: "В начале творения небес и земли. Если ты пришел объяснить стих в его простом смысле, то следует так: в начале творения небес и земли, когда земля была пуста и необитаема...",
-    category: ""
+    commentaries: [
+      {
+        author: "Раши",
+        text: "В начале творения небес и земли. Если ты пришел объяснить стих в его простом смысле, то следует так: в начале творения небес и земли, когда земля была пуста и необитаема...",
+        category: ""
+      },
+      {
+        author: "Рамбан", 
+        text: "Тора начинается с буквы бет, чтобы указать на благословение. Как сказали наши мудрецы: 'Мир был сотворен заслугой Торы'.",
+        category: ""
+      }
+    ]
   },
-  {
-    author: "Рамбан", 
-    text: "Тора начинается с буквы бет, чтобы указать на благословение. Как сказали наши мудрецы: 'Мир был сотворен заслугой Торы'.",
-    category: ""
+  Exodus: {
+    hebrew: "שמות",
+    russian: "Шмот",
+    verse: {
+      hebrew: ["וְאֵלֶּה", "שְׁמוֹת", "בְּנֵי", "יִשְׂרָאֵל", "הַבָּאִים", "מִצְרָיְמָה"],
+      russian: "И вот имена сынов Израилевых, пришедших в Египет.",
+      words: [
+        {
+          hebrew: "וְאֵלֶּה",
+          transliteration: "v'eleh",
+          translations: [
+            { meaning: "и вот", context: "указание", grammar: "союз + местоимение" },
+            { meaning: "и эти", context: "перечисление" }
+          ]
+        },
+        {
+          hebrew: "שְׁמוֹת",
+          transliteration: "shmot",
+          translations: [
+            { meaning: "имена", context: "названия", grammar: "имя существительное" },
+            { meaning: "наименования", context: "обозначения" }
+          ]
+        },
+        {
+          hebrew: "בְּנֵי",
+          transliteration: "bnei",
+          translations: [
+            { meaning: "сыновей", context: "потомки", grammar: "имя существительное" },
+            { meaning: "сынов", context: "мужское потомство" }
+          ]
+        },
+        {
+          hebrew: "יִשְׂרָאֵל",
+          transliteration: "Yisrael",
+          translations: [
+            { meaning: "Израиля", context: "праотец Яаков", grammar: "имя собственное" },
+            { meaning: "Израилевых", context: "потомки Яакова" }
+          ]
+        },
+        {
+          hebrew: "הַבָּאִים",
+          transliteration: "ha-baim",
+          translations: [
+            { meaning: "пришедших", context: "прибывших", grammar: "причастие с артиклем" },
+            { meaning: "приходящих", context: "входящих" }
+          ]
+        },
+        {
+          hebrew: "מִצְרָיְמָה",
+          transliteration: "mitzrayma",
+          translations: [
+            { meaning: "в Египет", context: "направление движения", grammar: "имя собственное с окончанием направления" },
+            { meaning: "в землю египетскую", context: "географическое место" }
+          ]
+        }
+      ]
+    },
+    commentaries: [
+      {
+        author: "Раши",
+        text: "И вот имена — хотя уже перечислил их при жизни, вновь перечисляет их после смерти, чтобы показать, насколько они дороги Ему.",
+        category: ""
+      }
+    ]
+  },
+  Leviticus: {
+    hebrew: "ויקרא",
+    russian: "Ваикра",
+    verse: {
+      hebrew: ["וַיִּקְרָא", "אֶל־", "מֹשֶׁה"],
+      russian: "И воззвал к Моисею.",
+      words: [
+        {
+          hebrew: "וַיִּקְרָא",
+          transliteration: "vayikra",
+          translations: [
+            { meaning: "и воззвал", context: "обращение", grammar: "глагол" },
+            { meaning: "и призвал", context: "приглашение" }
+          ]
+        },
+        {
+          hebrew: "אֶל־",
+          transliteration: "el",
+          translations: [
+            { meaning: "к", context: "направление", grammar: "предлог" },
+            { meaning: "в сторону", context: "обращение к кому-то" }
+          ]
+        },
+        {
+          hebrew: "מֹשֶׁה",
+          transliteration: "Moshe",
+          translations: [
+            { meaning: "Моисею", context: "пророк", grammar: "имя собственное" },
+            { meaning: "Моше", context: "еврейское имя" }
+          ]
+        }
+      ]
+    },
+    commentaries: [
+      {
+        author: "Раши",
+        text: "И воззвал — выражение любви, выражение, которым пользуются ангелы служения.",
+        category: ""
+      }
+    ]
+  },
+  Numbers: {
+    hebrew: "במדבר",
+    russian: "Бемидбар",
+    verse: {
+      hebrew: ["וַיְדַבֵּר", "יְהוָה", "אֶל־", "מֹשֶׁה", "בְּמִדְבַּר", "סִינַי"],
+      russian: "И говорил Господь Моисею в пустыне Синайской.",
+      words: [
+        {
+          hebrew: "וַיְדַבֵּר",
+          transliteration: "vayedaber",
+          translations: [
+            { meaning: "и говорил", context: "речь", grammar: "глагол" },
+            { meaning: "и сказал", context: "произнесение" }
+          ]
+        },
+        {
+          hebrew: "יְהוָה",
+          transliteration: "Adonai",
+          translations: [
+            { meaning: "Господь", context: "имя Всевышнего", grammar: "имя собственное" },
+            { meaning: "Всевышний", context: "Творец мира" }
+          ]
+        },
+        {
+          hebrew: "אֶל־",
+          transliteration: "el",
+          translations: [{ meaning: "к", context: "направление", grammar: "предлог" }]
+        },
+        {
+          hebrew: "מֹשֶׁה",
+          transliteration: "Moshe",
+          translations: [{ meaning: "Моисею", context: "пророк", grammar: "имя собственное" }]
+        },
+        {
+          hebrew: "בְּמִדְבַּר",
+          transliteration: "bemidbar",
+          translations: [
+            { meaning: "в пустыне", context: "географическое место", grammar: "предлог + существительное" },
+            { meaning: "в степи", context: "безлюдное место" }
+          ]
+        },
+        {
+          hebrew: "סִינַי",
+          transliteration: "Sinai",
+          translations: [
+            { meaning: "Синайской", context: "гора Синай", grammar: "имя собственное" },
+            { meaning: "Синай", context: "место дарования Торы" }
+          ]
+        }
+      ]
+    },
+    commentaries: [
+      {
+        author: "Раши",
+        text: "В пустыне Синайской — почему здесь упоминается место? Чтобы научить, что слова Торы дороги лишь тому, кто делает себя как пустыня.",
+        category: ""
+      }
+    ]
+  },
+  Deuteronomy: {
+    hebrew: "דברים",
+    russian: "Дварим",
+    verse: {
+      hebrew: ["אֵלֶּה", "הַדְּבָרִים", "אֲשֶׁר", "דִּבֶּר", "מֹשֶׁה"],
+      russian: "Вот слова, которые говорил Моисей.",
+      words: [
+        {
+          hebrew: "אֵלֶּה",
+          transliteration: "eleh",
+          translations: [
+            { meaning: "вот", context: "указание", grammar: "местоимение" },
+            { meaning: "эти", context: "перечисление" }
+          ]
+        },
+        {
+          hebrew: "הַדְּבָרִים",
+          transliteration: "ha-dvarim",
+          translations: [
+            { meaning: "слова", context: "речь", grammar: "существительное с артиклем" },
+            { meaning: "речи", context: "высказывания" }
+          ]
+        },
+        {
+          hebrew: "אֲשֶׁר",
+          transliteration: "asher",
+          translations: [
+            { meaning: "которые", context: "относительное местоимение", grammar: "местоимение" },
+            { meaning: "что", context: "союзное слово" }
+          ]
+        },
+        {
+          hebrew: "דִּבֶּר",
+          transliteration: "diber",
+          translations: [
+            { meaning: "говорил", context: "речь", grammar: "глагол прошедшего времени" },
+            { meaning: "произносил", context: "высказывание" }
+          ]
+        },
+        {
+          hebrew: "מֹשֶׁה",
+          transliteration: "Moshe",
+          translations: [
+            { meaning: "Моисей", context: "пророк", grammar: "имя собственное" },
+            { meaning: "Моше", context: "еврейское имя" }
+          ]
+        }
+      ]
+    },
+    commentaries: [
+      {
+        author: "Раши",
+        text: "Вот слова — слова увещевания. Поскольку это слова увещевания, и здесь перечислены все места, где они прогневили Всемогущего, поэтому завуалировал слова и упомянул их только намеком.",
+        category: ""
+      }
+    ]
   }
-];
+};
 
 const Index = () => {
   const [currentBook, setCurrentBook] = useState("Genesis");
   const [currentChapter, setCurrentChapter] = useState(1);
   const [currentVerse, setCurrentVerse] = useState(1);
   const [activeWordPosition, setActiveWordPosition] = useState<number | null>(null);
+
+  // Получаем данные текущей книги
+  const currentBookData = TORAH_DATA[currentBook as keyof typeof TORAH_DATA];
 
   const handleNavigate = (book: string, chapter: number, verse: number) => {
     setCurrentBook(book);
@@ -121,7 +381,7 @@ const Index = () => {
               <CardHeader>
                 <CardTitle className="flex items-center justify-between">
                   <span className="font-elegant text-primary">
-                    בראשית {currentChapter}:{currentVerse} • Берешит {currentChapter}:{currentVerse}
+                    {currentBookData.hebrew} {currentChapter}:{currentVerse} • {currentBookData.russian} {currentChapter}:{currentVerse}
                   </span>
                 </CardTitle>
               </CardHeader>
@@ -137,7 +397,7 @@ const Index = () => {
                       </h3>
                       <div className="flex-1 flex items-center justify-center">
                         <div className="text-right leading-loose text-xl" dir="rtl">
-                          {SAMPLE_VERSE.words.map((word, index) => (
+                          {currentBookData.verse.words.map((word, index) => (
                             <TorahWord
                               key={index}
                               hebrew={word.hebrew}
@@ -162,7 +422,7 @@ const Index = () => {
                       </h3>
                       <div className="flex-1 flex items-center justify-center">
                         <p className="font-body text-lg leading-relaxed text-center text-amber-900 dark:text-amber-100">
-                          В начале сотворил Бог небо и землю.
+                          {currentBookData.verse.russian}
                         </p>
                       </div>
                     </div>
@@ -176,8 +436,8 @@ const Index = () => {
           <div className="space-y-4">
             <Commentary
               verse={`${currentChapter}:${currentVerse}`}
-              bookName="Берешит"
-              commentaries={SAMPLE_COMMENTARIES}
+              bookName={currentBookData.russian}
+              commentaries={currentBookData.commentaries}
             />
             
           </div>
