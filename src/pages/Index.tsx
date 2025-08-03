@@ -137,9 +137,6 @@ const Index = () => {
                       <p className="font-body text-lg leading-relaxed text-center text-blue-900 dark:text-blue-100">
                         В начале сотворил Бог небо и землю.
                       </p>
-                      <p className="text-xs text-blue-600 dark:text-blue-400 mt-3 text-center font-body italic">
-                        Дословный перевод
-                      </p>
                     </div>
                   </div>
                   
