@@ -34,6 +34,7 @@ export const TorahNavigation = ({ currentBook, currentChapter, currentVerse, onN
           <div className="flex items-center gap-4">
             {/* Book Selection */}
             <div className="relative">
+              <div className="text-xs font-medium text-primary-foreground/80 mb-1">Книга</div>
               <Select value={currentBook} onValueChange={(value) => onNavigate(value, 1, 1)}>
                 <SelectTrigger className="w-56 bg-gradient-to-r from-blue-500/30 to-blue-400/20 border-2 border-blue-300/50 text-primary-foreground shadow-lg backdrop-blur-sm hover:from-blue-500/40 hover:to-blue-400/30 transition-all duration-300">
                   <SelectValue placeholder="Выберите книгу" />
@@ -53,6 +54,7 @@ export const TorahNavigation = ({ currentBook, currentChapter, currentVerse, onN
             
             {/* Chapter Selection */}
             <div className="relative">
+              <div className="text-xs font-medium text-primary-foreground/80 mb-1">Глава</div>
               <Select value={currentChapter.toString()} onValueChange={(value) => onNavigate(currentBook, parseInt(value), 1)}>
                 <SelectTrigger className="w-32 bg-gradient-to-r from-blue-500/30 to-blue-400/20 border-2 border-blue-300/50 text-primary-foreground shadow-lg backdrop-blur-sm hover:from-blue-500/40 hover:to-blue-400/30 transition-all duration-300">
                   <SelectValue placeholder="Глава" />
@@ -69,6 +71,7 @@ export const TorahNavigation = ({ currentBook, currentChapter, currentVerse, onN
             
             {/* Verse Selection */}
             <div className="relative">
+              <div className="text-xs font-medium text-primary-foreground/80 mb-1">Стих</div>
               <Select value={currentVerse.toString()} onValueChange={(value) => onNavigate(currentBook, currentChapter, parseInt(value))}>
                 <SelectTrigger className="w-32 bg-gradient-to-r from-blue-500/30 to-blue-400/20 border-2 border-blue-300/50 text-primary-foreground shadow-lg backdrop-blur-sm hover:from-blue-500/40 hover:to-blue-400/30 transition-all duration-300">
                   <SelectValue placeholder="Стих" />
