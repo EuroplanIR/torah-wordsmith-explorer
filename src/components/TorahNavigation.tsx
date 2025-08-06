@@ -10,6 +10,8 @@ interface TorahNavigationProps {
   currentChapter: number;
   currentVerse: number;
   onNavigate: (book: string, chapter: number, verse: number) => void;
+  maxChapters?: number;
+  maxVerses?: number;
 }
 
 const TORAH_BOOKS = [
@@ -20,11 +22,19 @@ const TORAH_BOOKS = [
   { hebrew: "דברים", russian: "Дварим", english: "Deuteronomy" }
 ];
 
-const CHAPTERS = Array.from({ length: 50 }, (_, i) => i + 1);
-const VERSES = Array.from({ length: 100 }, (_, i) => i + 1);
-
-export const TorahNavigation = ({ currentBook, currentChapter, currentVerse, onNavigate }: TorahNavigationProps) => {
+export const TorahNavigation = ({ 
+  currentBook, 
+  currentChapter, 
+  currentVerse, 
+  onNavigate, 
+  maxChapters = 50, 
+  maxVerses = 100 
+}: TorahNavigationProps) => {
   const currentBookData = TORAH_BOOKS.find(book => book.english === currentBook);
+  
+  // Generate chapters and verses based on available data
+  const CHAPTERS = Array.from({ length: maxChapters }, (_, i) => i + 1);
+  const VERSES = Array.from({ length: maxVerses }, (_, i) => i + 1);
 
   return (
     <Card className="mb-6 israeli-gradient tehelet-shadow">
@@ -93,15 +103,17 @@ export const TorahNavigation = ({ currentBook, currentChapter, currentVerse, onN
               variant="ghost"
               size="sm"
               onClick={() => onNavigate(currentBook, currentChapter, Math.max(1, currentVerse - 1))}
-              className="text-primary-foreground hover:bg-white/20 bg-white/10 border border-white/30 shadow-lg backdrop-blur-sm transition-all duration-300 hover:scale-105"
+              disabled={currentVerse <= 1}
+              className="text-primary-foreground hover:bg-white/20 bg-white/10 border border-white/30 shadow-lg backdrop-blur-sm transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <ChevronLeft className="w-4 h-4" />
             </Button>
             <Button
               variant="ghost"
               size="sm"
-              onClick={() => onNavigate(currentBook, currentChapter, currentVerse + 1)}
-              className="text-primary-foreground hover:bg-white/20 bg-white/10 border border-white/30 shadow-lg backdrop-blur-sm transition-all duration-300 hover:scale-105"
+              onClick={() => onNavigate(currentBook, currentChapter, Math.min(maxVerses, currentVerse + 1))}
+              disabled={currentVerse >= maxVerses}
+              className="text-primary-foreground hover:bg-white/20 bg-white/10 border border-white/30 shadow-lg backdrop-blur-sm transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <ChevronRight className="w-4 h-4" />
             </Button>

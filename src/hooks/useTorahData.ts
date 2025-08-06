@@ -1,296 +1,115 @@
-import { useState, useEffect, useCallback } from 'react';
-import { TorahDatabase, TorahBook, HebrewLexicon } from '@/types/torah';
-import { dataLoaderUtils } from '@/utils/dataLoader';
+import { useState, useEffect } from 'react';
 
-interface UseTorahDataReturn {
-  database: TorahDatabase | null;
-  lexicon: HebrewLexicon | null;
-  books: TorahBook[];
-  currentBook: TorahBook | null;
-  isLoading: boolean;
-  error: string | null;
-  loadBook: (bookName: string) => Promise<void>;
-  searchWord: (hebrew: string) => any;
-  getWordTranslations: (hebrew: string) => any[];
-  refreshData: () => Promise<void>;
-  progress: {
-    loaded: number;
-    total: number;
-    currentOperation: string;
-  };
+export interface TorahWord {
+  hebrew: string;
+  transliteration: string;
+  root?: string;
+  translations: Array<{
+    meaning: string;
+    context: string;
+    grammar?: string;
+  }>;
 }
 
-export const useTorahData = (): UseTorahDataReturn => {
-  const [database, setDatabase] = useState<TorahDatabase | null>(null);
-  const [currentBook, setCurrentBook] = useState<TorahBook | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+export interface TorahVerse {
+  number: number;
+  hebrew: string[];
+  russian: string;
+  words: TorahWord[];
+}
+
+export interface TorahChapter {
+  number: number;
+  verses: TorahVerse[];
+}
+
+export interface TorahBook {
+  english: string;
+  hebrew: string;
+  russian: string;
+  transliteration: string;
+  chapters: TorahChapter[];
+}
+
+const BOOK_FILES = {
+  Genesis: 'genesis.json',
+  Exodus: 'exodus.json',
+  Leviticus: 'leviticus.json',
+  Numbers: 'numbers.json',
+  Deuteronomy: 'deuteronomy.json',
+};
+
+export const useTorahData = () => {
+  const [books, setBooks] = useState<Record<string, TorahBook>>({});
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [progress, setProgress] = useState({
-    loaded: 0,
-    total: 5,
-    currentOperation: 'Инициализация...'
-  });
 
-  /**
-   * Initialize data loading
-   */
   useEffect(() => {
-    initializeData();
-  }, []);
+    const loadBooks = async () => {
+      try {
+        setLoading(true);
+        const loadedBooks: Record<string, TorahBook> = {};
 
-  /**
-   * Initialize Torah data from cache or download
-   */
-  const initializeData = async () => {
-    try {
-      setIsLoading(true);
-      setError(null);
-      setProgress({ loaded: 0, total: 5, currentOperation: 'Проверка кэша...' });
-
-      // Try to load from cache first
-      const cachedData = dataLoaderUtils.loadFromCache();
-      
-      if (cachedData && !dataLoaderUtils.shouldUpdateCache()) {
-        setProgress({ loaded: 5, total: 5, currentOperation: 'Загрузка из кэша...' });
-        setDatabase(cachedData);
-        if (cachedData.books.length > 0) {
-          setCurrentBook(cachedData.books[0]);
-        }
-        setIsLoading(false);
-        return;
-      }
-
-      // Load from external sources
-      await loadFromSources();
-
-    } catch (err) {
-      console.error('Ошибка инициализации данных:', err);
-      setError(err instanceof Error ? err.message : 'Неизвестная ошибка');
-      
-      // Try to use cached data as fallback
-      const cachedData = dataLoaderUtils.loadFromCache();
-      if (cachedData) {
-        setDatabase(cachedData);
-        if (cachedData.books.length > 0) {
-          setCurrentBook(cachedData.books[0]);
-        }
-      }
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  /**
-   * Load data from external sources
-   */
-  const loadFromSources = async () => {
-    setProgress({ loaded: 0, total: 5, currentOperation: 'Загрузка данных Торы...' });
-
-    try {
-      // First, try to load from local JSON files
-      const data = await loadFromLocalFiles();
-      setDatabase(data);
-      if (data.books.length > 0) {
-        setCurrentBook(data.books[0]);
-      }
-    } catch (err) {
-      console.warn('Не удалось загрузить локальные файлы, используем встроенные данные');
-      
-      // Fallback to embedded sample data
-      const fallbackData = createFallbackData();
-      setDatabase(fallbackData);
-      setCurrentBook(fallbackData.books[0]);
-    }
-  };
-
-  /**
-   * Load data from local JSON files
-   */
-  const loadFromLocalFiles = async (): Promise<TorahDatabase> => {
-    const promises = [];
-
-    // Load metadata
-    setProgress({ loaded: 1, total: 5, currentOperation: 'Загрузка метаданных...' });
-    promises.push(fetch('/data/metadata.json').then(r => r.json()));
-
-    // Load lexicon
-    setProgress({ loaded: 2, total: 5, currentOperation: 'Загрузка словаря...' });
-    promises.push(fetch('/data/hebrew-lexicon.json').then(r => r.json()));
-
-    // Load first book for quick start
-    setProgress({ loaded: 3, total: 5, currentOperation: 'Загрузка книг...' });
-    promises.push(fetch('/data/genesis.json').then(r => r.json()));
-
-    try {
-      const [metadata, lexicon, genesis] = await Promise.all(promises);
-      
-      setProgress({ loaded: 5, total: 5, currentOperation: 'Завершение...' });
-
-      const database: TorahDatabase = {
-        books: [genesis],
-        lexicon: lexicon,
-        commentaries: [],
-        metadata: metadata
-      };
-
-      // Cache the data
-      localStorage.setItem('torahDatabase', JSON.stringify(database));
-
-      return database;
-    } catch (error) {
-      throw new Error('Не удалось загрузить данные из локальных файлов');
-    }
-  };
-
-  /**
-   * Create fallback data if external sources fail
-   */
-  const createFallbackData = (): TorahDatabase => {
-    return {
-      books: [
-        {
-          english: 'Genesis',
-          hebrew: 'בראשית',
-          russian: 'Берешит',
-          transliteration: 'Bereishit',
-          chapters: [
-            {
-              number: 1,
-              verses: [
-                {
-                  number: 1,
-                  hebrew: ['בְּרֵאשִׁית', 'בָּרָא', 'אֱלֹהִים', 'אֵת', 'הַשָּׁמַיִם', 'וְאֵת', 'הָאָרֶץ'],
-                  russian: 'В начале сотворил Бог небо и землю.',
-                  words: [
-                    {
-                      hebrew: 'בְּרֵאשִׁית',
-                      transliteration: 'b\'reshit',
-                      root: 'ראש',
-                      translations: [
-                        { meaning: 'в начале', context: 'временной период', grammar: 'наречие' }
-                      ]
-                    }
-                    // ... more words would be here
-                  ]
-                }
-              ]
+        for (const [bookName, fileName] of Object.entries(BOOK_FILES)) {
+          try {
+            const response = await fetch(`/data/${fileName}`);
+            if (!response.ok) {
+              throw new Error(`Failed to load ${fileName}`);
             }
-          ],
-          wordCount: 7,
-          uniqueWords: 7
+            const bookData = await response.json();
+            loadedBooks[bookName] = bookData;
+          } catch (bookError) {
+            console.error(`Error loading ${bookName}:`, bookError);
+          }
         }
-      ],
-      lexicon: {
-        'ברא': {
-          root: 'ברא',
-          meanings: [
-            { meaning: 'создавать', context: 'божественное творение', grammar: 'глагол' }
-          ],
-          frequency: 48,
-          relatedWords: ['בריה', 'בראשית'],
-          biblicalUsage: [
-            { book: 'Genesis', chapter: 1, verse: 1, form: 'בָּרָא' }
-          ]
-        }
-      },
-      commentaries: [],
-      metadata: {
-        totalWords: 7,
-        uniqueWords: 7,
-        lastUpdated: new Date().toISOString(),
-        sources: ['fallback']
+
+        setBooks(loadedBooks);
+        setError(null);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Failed to load Torah data');
+      } finally {
+        setLoading(false);
       }
     };
-  };
 
-  /**
-   * Load a specific book
-   */
-  const loadBook = useCallback(async (bookName: string) => {
-    if (!database) return;
-
-    try {
-      setIsLoading(true);
-      
-      // Check if book is already loaded
-      const existingBook = database.books.find(book => book.english === bookName);
-      if (existingBook) {
-        setCurrentBook(existingBook);
-        setIsLoading(false);
-        return;
-      }
-
-      // Load book from file
-      const response = await fetch(`/data/${bookName.toLowerCase()}.json`);
-      if (!response.ok) {
-        throw new Error(`Не удалось загрузить книгу ${bookName}`);
-      }
-
-      const bookData = await response.json();
-      
-      // Add to database
-      const updatedDatabase = {
-        ...database,
-        books: [...database.books, bookData]
-      };
-      
-      setDatabase(updatedDatabase);
-      setCurrentBook(bookData);
-      
-      // Update cache
-      localStorage.setItem('torahDatabase', JSON.stringify(updatedDatabase));
-
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Ошибка загрузки книги');
-    } finally {
-      setIsLoading(false);
-    }
-  }, [database]);
-
-  /**
-   * Search for a word in the lexicon
-   */
-  const searchWord = useCallback((hebrew: string) => {
-    if (!database?.lexicon) return null;
-    
-    // Remove vowels for search
-    const cleanWord = hebrew.replace(/[\u05B0-\u05BC\u05C1\u05C2\u05C4\u05C5\u05C7]/g, '');
-    
-    return database.lexicon[cleanWord] || database.lexicon[hebrew] || null;
-  }, [database]);
-
-  /**
-   * Get all possible translations for a word
-   */
-  const getWordTranslations = useCallback((hebrew: string) => {
-    const wordData = searchWord(hebrew);
-    return wordData?.meanings || [
-      { meaning: 'неизвестно', context: 'требует дополнительного анализа', grammar: 'неопределено' }
-    ];
-  }, [searchWord]);
-
-  /**
-   * Refresh data from sources
-   */
-  const refreshData = useCallback(async () => {
-    // Clear cache
-    localStorage.removeItem('torahDatabase');
-    
-    // Reload data
-    await initializeData();
+    loadBooks();
   }, []);
 
+  const getVerse = (book: string, chapter: number, verse: number): TorahVerse | null => {
+    const bookData = books[book];
+    if (!bookData) return null;
+
+    const chapterData = bookData.chapters.find(ch => ch.number === chapter);
+    if (!chapterData) return null;
+
+    const verseData = chapterData.verses.find(v => v.number === verse);
+    return verseData || null;
+  };
+
+  const getBook = (bookName: string): TorahBook | null => {
+    return books[bookName] || null;
+  };
+
+  const getChapterVerseCount = (book: string, chapter: number): number => {
+    const bookData = books[book];
+    if (!bookData) return 0;
+
+    const chapterData = bookData.chapters.find(ch => ch.number === chapter);
+    return chapterData ? chapterData.verses.length : 0;
+  };
+
+  const getBookChapterCount = (book: string): number => {
+    const bookData = books[book];
+    return bookData ? bookData.chapters.length : 0;
+  };
+
   return {
-    database,
-    lexicon: database?.lexicon || null,
-    books: database?.books || [],
-    currentBook,
-    isLoading,
+    books,
+    loading,
     error,
-    loadBook,
-    searchWord,
-    getWordTranslations,
-    refreshData,
-    progress
+    getVerse,
+    getBook,
+    getChapterVerseCount,
+    getBookChapterCount,
   };
 };

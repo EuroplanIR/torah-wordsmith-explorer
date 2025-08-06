@@ -6,9 +6,10 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Search, Bookmark, Settings } from "lucide-react";
+import { useTorahData } from "@/hooks/useTorahData";
 
-// Данные для демонстрации разных книг
-const TORAH_DATA = {
+// Fallback data for demonstration when real data is loading
+const FALLBACK_TORAH_DATA = {
   Genesis: {
     hebrew: "בראשית",
     russian: "Берешит",
@@ -322,8 +323,17 @@ const Index = () => {
   const [currentVerse, setCurrentVerse] = useState(1);
   const [activeWordPosition, setActiveWordPosition] = useState<number | null>(null);
 
-  // Получаем данные текущей книги
-  const currentBookData = TORAH_DATA[currentBook as keyof typeof TORAH_DATA];
+  // Load Torah data
+  const { books, loading, error, getVerse, getBook, getChapterVerseCount, getBookChapterCount } = useTorahData();
+
+  // Get current book data
+  const currentBookData = getBook(currentBook);
+  const currentVerseData = getVerse(currentBook, currentChapter, currentVerse);
+  
+  // Fallback to demo data if real data is not available
+  const fallbackBookData = FALLBACK_TORAH_DATA[currentBook as keyof typeof FALLBACK_TORAH_DATA];
+  const displayBookData = currentBookData || fallbackBookData;
+  const displayVerseData = currentVerseData || fallbackBookData?.verse;
 
   const handleNavigate = (book: string, chapter: number, verse: number) => {
     setCurrentBook(book);
@@ -335,6 +345,42 @@ const Index = () => {
   const handleWordToggle = (position: number) => {
     setActiveWordPosition(activeWordPosition === position ? null : position);
   };
+
+  // Show loading state
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-background font-body flex items-center justify-center">
+        <div className="text-center">
+          <h2 className="text-2xl font-elegant mb-4">Загрузка данных Торы...</h2>
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto"></div>
+        </div>
+      </div>
+    );
+  }
+
+  // Show error state
+  if (error) {
+    return (
+      <div className="min-h-screen bg-background font-body flex items-center justify-center">
+        <div className="text-center">
+          <h2 className="text-2xl font-elegant mb-4 text-red-600">Ошибка загрузки данных</h2>
+          <p className="text-muted-foreground">{error}</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Show message if no data available
+  if (!displayBookData || !displayVerseData) {
+    return (
+      <div className="min-h-screen bg-background font-body flex items-center justify-center">
+        <div className="text-center">
+          <h2 className="text-2xl font-elegant mb-4">Данные недоступны</h2>
+          <p className="text-muted-foreground">Книга {currentBook}, глава {currentChapter}, стих {currentVerse} не найдены</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background font-body">
@@ -372,6 +418,8 @@ const Index = () => {
           currentChapter={currentChapter}
           currentVerse={currentVerse}
           onNavigate={handleNavigate}
+          maxChapters={getBookChapterCount(currentBook)}
+          maxVerses={getChapterVerseCount(currentBook, currentChapter)}
         />
 
         <div className="grid lg:grid-cols-3 gap-6">
@@ -381,7 +429,7 @@ const Index = () => {
               <CardHeader>
                 <CardTitle className="flex items-center justify-between">
                   <span className="font-elegant text-primary">
-                    {currentBookData.hebrew} {currentChapter}:{currentVerse} • {currentBookData.russian} {currentChapter}:{currentVerse}
+                    {displayBookData.hebrew} {currentChapter}:{currentVerse} • {displayBookData.russian} {currentChapter}:{currentVerse}
                   </span>
                 </CardTitle>
               </CardHeader>
@@ -397,7 +445,7 @@ const Index = () => {
                       </h3>
                       <div className="flex-1 flex items-center justify-center">
                         <div className="text-right leading-loose text-xl" dir="rtl">
-                          {currentBookData.verse.words.map((word, index) => (
+                          {displayVerseData.words.map((word, index) => (
                             <TorahWord
                               key={index}
                               hebrew={word.hebrew}
@@ -422,7 +470,7 @@ const Index = () => {
                       </h3>
                       <div className="flex-1 flex items-center justify-center">
                         <p className="font-body text-lg leading-relaxed text-center text-amber-900 dark:text-amber-100">
-                          {currentBookData.verse.russian}
+                          {displayVerseData.russian}
                         </p>
                       </div>
                     </div>
@@ -436,8 +484,8 @@ const Index = () => {
           <div className="space-y-4">
             <Commentary
               verse={`${currentChapter}:${currentVerse}`}
-              bookName={currentBookData.russian}
-              commentaries={currentBookData.commentaries}
+              bookName={displayBookData.russian}
+              commentaries={fallbackBookData?.commentaries || []}
             />
             
           </div>
